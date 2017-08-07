@@ -1,0 +1,37 @@
+package cn.come.demo.service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import cn.come.demo.mapper.PUmAuthorityMapper;
+import cn.come.demo.po.PUmAuthority;
+
+@Service
+public class PUmAuthorityService {
+	@Resource
+private PUmAuthorityMapper pUmAuthorityMapper;
+public List<PUmAuthority> getAuthorityList(){
+	return pUmAuthorityMapper.selectByExample(null);
+	
+}
+public void delAuthorityById(String authorityid) {
+	// TODO Auto-generated method stub
+	pUmAuthorityMapper.deleteByPrimaryKey(authorityid);
+}
+public PUmAuthority findAuthoById(String authorityid) {
+	// TODO Auto-generated method stub
+	return pUmAuthorityMapper.selectByPrimaryKey(authorityid);
+}
+public void updAuthority(PUmAuthority pumAuthority) {
+	// TODO Auto-generated method stub
+	pUmAuthorityMapper.updateByPrimaryKey(pumAuthority);
+}
+public void delMore(String[] str) {
+	// TODO Auto-generated method stub
+	pUmAuthorityMapper.delRoleAuthorityByROleId(str);
+	pUmAuthorityMapper.delRoleByRoleId(str);
+}
+}

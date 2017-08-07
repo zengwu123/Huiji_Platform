@@ -1,0 +1,45 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<div id="sidebar">
+  <ul>
+    <li><a href="#"><i class="icon icon-home"></i> <span>我的订单</span></a> </li>
+   
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>用户管理</span> <span class="label label-important">3</span></a>
+      <ul>
+        <li><a href="${pageContext.request.contextPath }/user/findStudentList.action">学生列表</a></li>
+        <li><a href="#">注册用户</a></li>
+        <li><a href="#">密码管理</a></li>
+        <li><a href="${pageContext.request.contextPath }/loginOut.action">退出登录</a></li>
+      </ul>
+    </li>
+    
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>权限管理</span> <span class="label label-important">3</span></a>
+      <ul>
+        <li><a href="${pageContext.request.contextPath}/user/userList.action?page=1">用户列表</a></li>
+        <li><a href="${pageContext.request.contextPath}/role/roleList.action?page=1">角色列表</a></li>
+        <li><a href="${pageContext.request.contextPath}/auth/authority.action?page">权限列表</a></li>
+        <li><a href="#">资源列表</a></li>
+      </ul>
+    </li>
+   
+    <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Error</span> <span class="label label-important">4</span></a>
+      <ul>
+        <li><a href="${pageContext.request.contextPath }/example/error403.action">Error 403</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/error404.action">Error 404</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/error405.action">Error 405</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/error500.action">Error 500</a></li>
+      </ul>
+    </li>
+  <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>案列页面</span> <span class="label label-important">4</span></a>
+      <ul>
+         <li><a href="${pageContext.request.contextPath }/example/table.action">Table</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/button_and_icons.action">Buttons & icons</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/form_common.action">Form common</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/form_validation.action">Form validation</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/form_wizard.action">Form wizard</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/gridlayout.action">Grid Layout</a></li>
+        <li><a href="${pageContext.request.contextPath }/example/index_info.action">Index info</a></li>
+         <li><a href="${pageContext.request.contextPath }/example/interface_elements.action">Interface elements</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

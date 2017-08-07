@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.PUmRoleAuthorityMapper">
+  
+<!-- 根据roleid删除角色下所有权限 -->
+  <delete id="deleByRoleId">
+  delete from p_um_role_authority where roleid=#{_parameter}
+  </delete>
+
+<!-- 根据角色id查询所有角色信息，没有关联则为1 -->
+  <select id="findRoleAuthById" resultType="cn.come.demo.dto.PUmRoleIsAuthority">
+  select r.*,nvl((select um.authorityid from p_um_role_authority um 
+  where um.roleid=#{_parameter}
+  and um.authorityid=r.authorityid),1) isrole from p_um_authority r
+  </select>
+
+<!-- 关联角色和权限的信息 -->
+ <insert id="doAssRoleAuth" parameterType="pUmRoleAuthority">
+  insert into p_um_role_authority
+  <foreach collection="list" index="index" item="item" separator="union all">
+  select
+  #{item.roleid} roleid,
+  #{item.authorityid} authorityid,
+  1
+  from dual
+  </foreach>
+  </insert>
+
+</mapper>

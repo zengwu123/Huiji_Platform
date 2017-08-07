@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.PUmAuthorityResourceMapper" >
+  
+  <!-- 根据权限id删除所有与其相关的资源 -->
+  <delete id="delByAuthorityId" parameterType="java.lang.String">
+     delete from p_um_authority_resource where authorityid=#{_parameter}
+  </delete>
+  
+  <!-- 查找所有权限id下的资源 -->
+  <select id="getAllResource" parameterType="String" resultType="cn.come.demo.dto.PumIsSelect">
+  		SELECT r.* ,nvl(
+        (select s.resource_id from p_um_authority_resource s
+        where s.authorityid=#{_parameter}
+        and s.resource_id=r.resource_id),'1') isSelect from p_um_resources r
+  </select>
+  
+  <!-- 添加资源信息 -->
+  <insert id="addResource" parameterType="pUmAuthorityResource">
+  insert into p_um_authority_resource
+  <foreach collection="list" item="items" separator="union all" index="index">
+  select
+  #{items.authorityid} authorityid,
+  #{items.resourceId} resourceId,
+  1 from dual
+  </foreach>
+  </insert>
+</mapper>

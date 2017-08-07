@@ -1,0 +1,7 @@
+package cn.come.demo.mapper;
+
+
+public interface PUmAuthorityResourceMapper {
+
+
+}

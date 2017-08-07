@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.PUmAuthorityMapper">
+  
+  <!--根据条件分页查询所有权限出来 -->
+  <select id="selectByAuthority" resultType="pUmAuthority" >
+   select *from (select a.* ,rownum rn from p_um_authority a
+   <where>
+	   <if test="auth.authorityid !=null and auth.authorityid!=''"> 
+	   	    authorityid=#{auth.authorityid}
+	   </if>
+	   <if test="auth.authorityname !=null and auth.authorityname!=''"> 
+	   		and authorityname like '%${auth.authorityname}%'
+	   </if>
+   </where>) t where t.rn between (#{page}-1)*#{pageSize}+1 and #{page}*#{pageSize}
+  </select>
+
+<!--根据权限id删除权限 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from p_um_authority where authorityid=#{authorityid}
+  </delete>
+
+<!-- 根据权限id查找 -->
+<select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="pUmAuthority">
+    select * from p_um_authority where authorityid = #{authorityid}
+</select>
+
+
+ <update id="updateByPrimaryKey" parameterType="pUmAuthority" >
+    update p_um_authority
+    <set >
+    	<include refid="for_update_authority"></include>
+   </set>
+    where authorityid = #{authorityid}
+  </update>
+
+<!-- 根据权限id删除所有权限和角色关联表 -->
+  <delete id="delRoleAuthorityByROleId" parameterType="java.lang.String">
+  delete from p_um_role_authority where authorityid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+  <!-- 根据权限id删除所有权限和资源关联表 -->
+  <delete id="delAuthorityofResource" parameterType="java.lang.String">
+  delete from p_um_authority_resource where authorityid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+   <!-- 根据权限id删除所有权限 -->
+  <delete id="delauthByRoleId" parameterType="java.lang.String">
+   delete from p_um_authority where authorityid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+  <!-- 查找最大权限id的值+1 -->
+  <select id="findMaxAuthorityId" resultType="String">
+   select to_char(max(to_number(authorityid))+1) from p_um_authority
+  </select>
+  
+  <!-- 添加权限信息 -->
+  <insert id="addAuthority" parameterType="pUmAuthority">
+    insert into p_um_authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+       <include refid="for_add_authority_pre"></include>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+       <include refid="for_add_authority_suf"></include>
+    </trim>
+  </insert>
+  
+  <!-- 根据条件查询出权限的数量 -->
+  <select id="getAuthorityCount" parameterType="pUmAuthority" resultType="int">
+  select count(*) from p_um_authority
+  <where>
+  <if test="authorityid !=null and authorityid!=''"> and authorityid=#{authorityid}</if>
+  <if test="authorityname !=null and authorityname!=''"> and authorityname like '%${authorityname}%'</if>
+  </where>
+  </select>
+  
+  <!-- 添加权限的语句块    pre前部分 -->
+  <sql id="for_add_authority_pre">
+      <if test="authorityid != null and authorityid!=''" >
+        authorityid,
+      </if>
+  	  <if test="authorityname != null and authorityname!=''" >
+        authorityname,
+      </if>
+      <if test="descn != null and descn!=''" >
+        descn,
+      </if>
+      <if test="function != null and function!=''" >
+        function,
+      </if>
+      <if test="code != null and code!=''" >
+        code,
+      </if>
+      <if test="functionname != null and functionname!=''" >
+        functionname,
+      </if>
+      <if test="enabled != null and enabled!=''" >
+        enabled,
+      </if>
+      
+      <if test="issys != null and issys!=''" >
+        issys,
+      </if>
+      <if test="flaginfo != null and flaginfo!=''" >
+        flaginfo,
+      </if>
+       <if test="create_time != null and create_time!=''" >
+        create_time,
+      </if>
+       <if test="update_time != null and update_time!=''" >
+        update_time,
+      </if>
+  </sql>
+  
+  <!-- 添加权限的语句块    suf后部分 -->
+  <sql id="for_add_authority_suf">
+  	  <if test="authorityid != null and authorityid!=''" >
+        #{authorityid},
+      </if>
+  	  <if test="authorityname != null and authorityname!=''" >
+        #{authorityname},
+      </if>
+      <if test="descn != null and descn!=''" >
+        #{descn},
+      </if>
+      <if test="function != null and function!=''" >
+        #{function},
+      </if>
+      <if test="code != null and code!=''" >
+        #{code},
+      </if>
+      <if test="functionname != null and functionname!=''" >
+        #{functionname},
+      </if>
+      <if test="enabled != null and enabled!=''" >
+        #{enabled},
+      </if>
+      <if test="issys != null and issys!=''" >
+        #{issys},
+      </if>
+      <if test="flaginfo != null and flaginfo!=''" >
+        #{flaginfo},
+      </if>
+       <if test="create_time != null and create_time!=''" >
+        #{create_time},
+      </if>
+       <if test="update_time != null and update_time!=''" >
+        #{update_time},
+      </if>
+  </sql>
+  
+<!-- 修改的sql语句块 -->
+<sql id="for_update_authority">
+      <if test="authorityname != null and authorityname!=''" >
+        authorityname = #{authorityname},
+      </if>
+      <if test="descn != null and descn!=''" >
+        descn = #{descn},
+      </if>
+      <if test="function != null and function!=''" >
+        function = #{function},
+      </if>
+      <if test="code != null and code!=''" >
+        code = #{code},
+      </if>
+      <if test="functionname != null and functionname!=''" >
+        functionname = #{functionname},
+      </if>
+      <if test="enabled != null and enabled!=''" >
+        enabled = #{enabled},
+      </if>
+      
+      <if test="issys != null and issys!=''" >
+        issys = #{issys},
+      </if>
+      <if test="flaginfo != null and flaginfo!=''" >
+        flaginfo = #{flaginfo},
+      </if>
+       <if test="create_time != null and create_time!=''" >
+        create_time = #{create_time},
+      </if>
+       <if test="update_time != null and update_time!=''" >
+        update_time = #{update_time},
+      </if>
+</sql>
+
+</mapper>

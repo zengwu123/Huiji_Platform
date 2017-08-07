@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.PUmUserRoleMapper">
+ 
+<!-- 根据用户id删除该用户所有权限 -->
+  <delete id="deleteAllUserRole" parameterType="java.lang.String">
+  delete from p_um_user_role where userid=#{_parameter}
+  </delete>
+  
+<!-- 删除多个用户所有权限 -->
+  <delete id="deleteMoreUserRole" parameterType="java.lang.String">
+  delete from p_Um_User_Role where userid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+ <!-- 查询出所有用户所包含的角色， 没有则为1 -->
+  <select id="getUserRole" resultType="cn.come.demo.dto.UserRole">
+  select r.*,nvl((select um.roleid from p_um_user_role um 
+  where um.userid=#{_parameter}
+  and um.roleid=r.roleid),1) isrole from p_um_role r
+  </select>
+
+<!-- 添加权限 -->
+  <insert id="addUserRole" parameterType="cn.come.demo.dto.UserRole">
+  insert into p_um_user_role 
+  <foreach collection="list" item="item"
+   index="index" separator="union all">
+  select
+  #{item.userid} userid,
+  #{item.roleid} roleid,
+  1
+  from dual
+  </foreach>
+  </insert>
+
+<!-- 根据roleid删除角色关联的用户信息 -->
+<delete id="delUerOfRoleById" parameterType="String">
+	delete from p_um_user_role where roleid=#{_parameter}
+</delete>
+
+<!-- 批量删除，根据roleid删除用户和角色关联信息 -->
+<delete id="delMoreUerOfRoleById" parameterType="java.lang.String">
+	delete from p_um_user_role where roleid in
+	<foreach collection="array" item="items" open="(" separator="," close=")">
+	 #{items}
+	</foreach>
+</delete>
+</mapper>

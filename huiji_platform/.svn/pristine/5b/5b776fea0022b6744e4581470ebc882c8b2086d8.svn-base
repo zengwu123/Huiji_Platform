@@ -1,0 +1,74 @@
+package cn.come.demo.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import cn.come.demo.mapper.PUmAuthorityMapper;
+import cn.come.demo.mapper.PUmAuthorityResourceMapper;
+import cn.come.demo.mapper.PUmRoleAuthorityMapper;
+import cn.come.demo.po.PUmAuthority;
+import cn.come.demo.utils.PageBeanUtil;
+
+@Service
+public class PUmAuthorityService {
+	@Resource
+	private PUmAuthorityMapper pUmAuthorityMapper;
+	@Resource
+	private PUmRoleAuthorityMapper pUmRoleAuthorityMapper;
+	@Resource
+	private PUmAuthorityResourceMapper pUmAuthorityResourceMapper;
+	public PageBeanUtil getAuthorityList(PUmAuthority auth, int page) {
+		int pageSize=3;
+		int totalCount=pUmAuthorityMapper.getAuthorityCount(auth);
+		Map<String, Object> map=new HashMap<>();
+		map.put("pageSize", pageSize);map.put("page", page);
+		map.put("auth", auth);
+		List<PUmAuthority> list=pUmAuthorityMapper.selectByAuthority(map);
+		PageBeanUtil pageBean =new PageBeanUtil(page, pageSize, totalCount);
+		pageBean.setList(list);
+		return pageBean;
+
+	}
+
+	public void delAuthorityById(String authorityid) {
+		pUmRoleAuthorityMapper.deleByAuthorityId(authorityid);
+		pUmAuthorityResourceMapper.delByAuthorityId(authorityid);
+		pUmAuthorityMapper.deleteByPrimaryKey(authorityid);
+	}
+
+	public PUmAuthority findAuthoById(String authorityid) {
+		// TODO Auto-generated method stub
+		return pUmAuthorityMapper.selectByPrimaryKey(authorityid);
+	}
+
+	public void updAuthority(PUmAuthority pumAuthority) {
+		// TODO Auto-generated method stub
+		pUmAuthorityMapper.updateByPrimaryKey(pumAuthority);
+	}
+
+	public void delMore(String[] str) {
+		
+		pUmAuthorityMapper.delRoleAuthorityByROleId(str);
+		pUmAuthorityMapper.delAuthorityofResource(str);
+		pUmAuthorityMapper.delauthByRoleId(str);
+	}
+
+	/*
+	 * 查找最大权限id的值
+	 */
+	public String findMaxAuthorityId() {
+		return pUmAuthorityMapper.findMaxAuthorityId();
+	}
+
+	/*
+	 * 添加权限信息
+	 */
+	public void addAuthority(PUmAuthority auth) {
+		pUmAuthorityMapper.addAuthority(auth);
+	}
+}

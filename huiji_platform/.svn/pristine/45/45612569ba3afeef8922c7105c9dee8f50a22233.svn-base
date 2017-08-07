@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.PUmUserMapper">
+ <!-- 查询用户登陆是否正确 -->
+ <select id="selectByUser" parameterType="pUmUser" resultType="pUmUser">
+ select *from p_um_user 
+ <where>
+ <if test="username!=null and username!=''"> and username=#{username}</if>
+ <if test="password!=null and password!=''"> and password=#{password}</if>
+ </where>
+ </select>
+ 
+  <!-- 根据用户查询所有符合条件的 -->
+  <select id="selectcountByUser" parameterType="pUmUser" resultType="int">
+  select count(*) from p_um_user 
+  <where>
+  <if test="userid!=null and userid!=''">and userid=#{userid}</if>
+  <if test="username!=null and username!=''">and username like '%${username}%'</if>
+  </where>
+  </select>
+  
+   <!-- 分页并用条件查询用户 -->
+  <select id="selectByUserList" resultType="pUmUser">
+  		select t.userid,t.loginid,t.username,t.password,t.usertype,t.userflag,
+  		t.logincount, t.loginlasttime,t.create_time,t.update_time
+        from (select p_um_user.*,rownum rn from p_um_user <where>
+        <if test="user.userid!=null and user.userid!=''">and userid=#{user.userid}</if>
+        <if test="user.username!=null and user.username!=''">and username like '%${user.username}%'</if>
+        </where>) t
+        where t.rn between (#{page}-1)*#{pageSize} and #{page}*#{pageSize}
+  </select>
+  
+  <!-- 根据用户id删除用户信息 -->
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from p_um_user where userid = #{userid}
+  </delete>
+  
+   <!-- 批量删除 -->
+  <delete id="delMoreUser" parameterType="java.lang.String">
+  	delete from p_um_user where userid in 
+  	<foreach collection="array" item="items" open="(" separator="," close=")">
+  	#{items}
+  	</foreach>
+  </delete>
+  
+  <!-- 根据用户id查找对应用户信息 -->
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="pUmUser">
+    select * from P_UM_USER where USERID = #{userid}
+  </select>
+  <!-- 根据用户id修改用户信息 -->
+  <update id="updateByPrimaryKey" parameterType="pUmUser" >
+   
+    update p_um_user
+    <set >
+    	<include refid="for_update_sql"></include>
+    </set>
+    where userid = #{userid}
+  </update>
+  
+    <!-- 查询最大的userid -->
+  <select id="findMaxUserId" resultType="Long">
+  select max(to_number(userid)) from p_um_user 
+  </select>
+  
+  <!-- 插入用户 -->
+  <insert id="insert" parameterType="pUmUser" >
+    insert into p_um_user 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+   		<include refid="for_insert_sql_pre"></include>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+    	<include refid="for_insert_suf"></include>
+    </trim>
+  </insert>
+ 
+  
+  
+  <!-- 插入用户使用的sql前部分 -->
+  <sql id="for_insert_sql_pre">
+  	<if test="userid!=null and userid!=''">userid,</if>
+    <if test="loginid!=null and loginid!=''">loginid,</if>
+    <if test="username!=null and username!=''">username,</if>
+    <if test="password!=null and password!=''">password,</if>
+    <if test="usertype!=null and usertype!=''">usertype,</if>
+    <if test="userflag!=null and userflag!=''">userflag,</if>
+    <if test="logincount!=null and logincount!=''">logincount,</if>
+    <if test="enabled != null and enabled!=''" >enabled,</if>
+    <if test="loginlasttime!=null and loginlasttime!=''">loginlasttime,</if>
+    <if test="issys != null and issys!=''" >issys,</if>
+    <if test="create_time!=null and create_time!=''">create_time,</if>
+    <if test="update_time!=null and update_time!=''">update_time,</if>
+  </sql>
+  
+  <!-- 插入用户的sql后部分 -->
+  <sql id="for_insert_suf">
+  	<if test="userid!=null and userid!=''">#{userid},</if>
+    <if test="loginid!=null and loginid!=''">#{loginid},</if>
+    <if test="username!=null and username!=''">#{username},</if>
+    <if test="password!=null and password!=''">#{password},</if>
+    <if test="usertype!=null and usertype!=''">#{usertype},</if>
+    <if test="userflag!=null and userflag!=''"> #{userflag},</if>
+    <if test="logincount!=null and logincount!=''">#{logincount},</if>
+    <if test="enabled != null and enabled!=''" >#{enabled},</if>
+    <if test="loginlasttime!=null and loginlasttime!=''">#{loginlasttime},</if>
+    <if test="issys != null and issys!=''" >#{issys},</if>
+    <if test="create_time!=null and create_time!=''">#{create_time},</if>
+    <if test="update_time!=null and update_time!=''">#{updatet_ime},</if>
+  </sql>
+  
+  <!-- 更新用户使用的sql -->
+  <sql id="for_update_sql">
+      <if test="loginid != null and loginid!=''" >loginid = #{loginid},</if>
+      <if test="username != null and username!=''" >username = #{username},</if>
+      <if test="password != null and password!=''" >password = #{password},</if>
+      <if test="usertype != null and usertype!=''" >usertype = #{usertype},</if>
+      <if test="userflag != null and userflag!=''" >userflag = #{userflag},</if>
+      <if test="logincount != null and logincount!=''" >logincount = #{logincount},</if>
+      <if test="enabled != null and enabled!=''" >enabled = #{enabled},</if>
+      <if test="loginlasttime != null and loginlasttime!=''" >loginlasttime = #{loginlasttime},</if>
+      <if test="issys != null and issys!=''" >issys = #{issys},</if>
+      <if test="create_time != null and create_time!=''" >create_time = #{create_time},</if>
+      <if test="update_time != null and update_time!=''" >update_time = #{update_time},</if>
+  </sql>
+</mapper>

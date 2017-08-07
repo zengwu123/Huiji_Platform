@@ -1,0 +1,60 @@
+package cn.come.demo.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import cn.come.demo.po.PUmRole;
+import cn.come.demo.service.PUmRoleService;
+import cn.come.demo.utils.PageBeanUtil;
+
+@Controller
+@RequestMapping("/role")
+public class PUmRoleController {
+	@Resource
+private PUmRoleService pUmRoleService;
+@RequestMapping("/roleList")
+public ModelAndView findRoleAll(PUmRole pumRole,int page){
+	PageBeanUtil pageBean = pUmRoleService.findRoleAll(pumRole,page);
+	ModelAndView mv=new ModelAndView();
+	mv.addObject("role", pumRole);
+	mv.addObject("pageBean", pageBean);
+	mv.setViewName("role.roleList");
+	return mv;
+}
+@RequestMapping("/deletebyid")
+public ModelAndView deletebyid(String roleid){
+	ModelAndView mv =new ModelAndView();
+	pUmRoleService.deleteRole(roleid);
+	mv.setViewName("redirect:roleList.action?page=1");
+	return mv;
+}
+@RequestMapping("/delMore")
+public String delMore(String text){
+	String[] str = text.split(",");
+	pUmRoleService.delMoreRoleAuthority(str);
+	pUmRoleService.delMoreRole(str);
+	return "redirect:roleList.action?page=1";
+	
+}
+@RequestMapping("/updbyid")
+public ModelAndView updById(String roleid){
+	PUmRole pumRole=pUmRoleService.forUpd(roleid);
+	ModelAndView mv =new ModelAndView();
+	mv.addObject("role", pumRole);
+	mv.setViewName("role.forUpad");
+	return mv;
+}
+@RequestMapping("/update")
+public ModelAndView updateRole(PUmRole pumRole){
+	ModelAndView mv=new ModelAndView();
+	pUmRoleService.update(pumRole);
+	mv.setViewName("redirect:roleList.action?page=1");
+	return mv;
+	
+}
+}
