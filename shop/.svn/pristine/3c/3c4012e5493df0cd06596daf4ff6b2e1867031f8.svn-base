@@ -1,0 +1,149 @@
+package cn.itcast.shop.order.action;
+
+import java.io.IOException;
+import java.util.Date;
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import cn.itcast.shop.cart.vo.Cart;
+import cn.itcast.shop.cart.vo.CartItem;
+import cn.itcast.shop.order.service.OrderService;
+import cn.itcast.shop.order.vo.Order;
+import cn.itcast.shop.order.vo.OrderItem;
+import cn.itcast.shop.user.vo.User;
+import cn.itcast.shop.utils.PageBean;
+import cn.itcast.shop.utils.PaymentUtil;
+
+public class OrderAction extends ActionSupport implements ModelDriven<Order>{
+	private Order order=new Order();
+	private OrderService orderService;
+	private int page;
+	private String pd_FrpId;
+	
+	public void setPd_FrpId(String pd_FrpId) {
+		this.pd_FrpId = pd_FrpId;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
+	}
+	@Override
+	public Order getModel() {
+		
+		return order;
+	}
+	public String save(){
+		// 调用Service完成数据库插入的操作:
+				// Order order = new Order();
+				// 设置订单的总金额:订单的总金额应该是购物车中总金额:
+				// 购物车在session中,从session总获得购物车信息.
+				Cart cart = (Cart) ServletActionContext.getRequest().getSession()
+						.getAttribute("cart");
+				if (cart == null) {
+					this.addActionMessage("亲!您还没有购物!");
+					return "msg";
+				}
+				order.setTotal(cart.getTotal());
+				// 设置订单的状态
+				order.setState(1); // 1:未付款.
+				// 设置订单时间
+				order.setOrdertime(new Date());
+				// 设置订单关联的客户:
+				User existUser = (User) ServletActionContext.getRequest().getSession()
+						.getAttribute("exitUser");
+				if (existUser == null) {
+					this.addActionMessage("亲!您还没有登录!");
+					return "login";
+				}
+				order.setUser(existUser);
+				// 设置订单项集合:
+				for (CartItem cartItem : cart.getCartItems()) {
+					// 订单项的信息从购物项获得的.
+					OrderItem orderItem = new OrderItem();
+					orderItem.setCount(cartItem.getCount());
+					orderItem.setSubtotal(cartItem.getSubtotal());
+					orderItem.setProduct(cartItem.getProduct());
+					orderItem.setOrder(order);
+
+					order.getOrderItems().add(orderItem);
+				}
+				orderService.save(order);
+				// 清空购物车:
+				cart.clear();
+		return "saveSuccess";
+	}
+	//查询我的订单
+	public String findByUid(){
+		User user=(User) ServletActionContext.getRequest().getSession().getAttribute("exitUser");
+		PageBean<Order> pageBean=orderService.findPageByUid(user.getUid(),page);
+		ActionContext.getContext().getValueStack().set("pageBean", pageBean);
+		return "findByPageUid";
+		
+	}
+	public String findByOid(){
+		
+		order=orderService.findByOid(order.getOid());
+		return "findByOidSuccess";
+		
+	}
+	public String payOrder(){
+		//修改订单操作
+		Order currenorder=orderService.findByOid(order.getOid());
+		currenorder.setAddr(order.getAddr());
+		currenorder.setName(order.getName());
+		currenorder.setPhone(order.getPhone());
+		orderService.update(currenorder);
+		//付款代码
+		 String p0_Cmd="buy";  //业务类型 是  Max(20)  固定值“Buy” 
+		 String p1_MerId="10001126856";       //商户编号 是 
+		 String p2_Order="" ;       //商户订单号 否  
+		 String p3_Amt="0.01" ;         //支付金额 否  
+		 String p4_Cur="CNY" ;         //交易币种 是  
+		 String p5_Pid="" ;         //商品名称 否 
+		 String p6_Pcat="";         //商品种类 
+		 String p7_Pdesc="";        //商品描述  
+		 String p8_Url ="http://localhost:8080/shop/order_callBack.action" ;        //商户接收支付成功数据的地址
+		 String p9_SAF="" ;         //送货地址 
+		 String pa_MP  ="";         //商户扩展信息
+		 String pd_FrpId =this.pd_FrpId;       //支付通道编码
+		 String pr_NeedResponse="1";     //应答机制
+		 String keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";             //秘钥
+		 String hmac=PaymentUtil.buildHmac(
+				 p0_Cmd, p1_MerId, p2_Order,
+				 p3_Amt, p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, 
+				 p8_Url, p9_SAF, pa_MP, pd_FrpId, 
+				 pr_NeedResponse, keyValue); //算法密钥
+		 StringBuffer stringbuffer=new StringBuffer("https://www.yeepay.com/app-merchant-proxy/node?");
+		 stringbuffer.append("p0_Cmd=").append(p0_Cmd).append("&");
+		 stringbuffer.append("p1_MerId=").append(p1_MerId).append("&");
+		 stringbuffer.append("p2_Order=").append(p2_Order).append("&");
+		 stringbuffer.append("p3_Amt=").append(p3_Amt).append("&");
+		 stringbuffer.append("p4_Cur=").append(p4_Cur).append("&");
+		 stringbuffer.append("p5_Pid=").append(p5_Pid).append("&");
+		 stringbuffer.append("p6_Pcat=").append(p6_Pcat).append("&");
+		 stringbuffer.append("p7_Pdesc=").append(p7_Pdesc).append("&");
+		 stringbuffer.append("p8_Url=").append(p8_Url).append("&");
+		 stringbuffer.append("p9_SAF=").append(p9_SAF).append("&");
+		 stringbuffer.append("pa_MP=").append(pa_MP).append("&");
+		 stringbuffer.append("pd_FrpId=").append(pd_FrpId).append("&");
+		 stringbuffer.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
+		 stringbuffer.append("hmac=").append(hmac);
+		 
+		 try {
+			ServletActionContext.getResponse().sendRedirect(stringbuffer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return NONE;
+	}
+	//支付成功后返回结果
+	public String callBack(){
+		return NONE;
+		
+	}
+
+}
