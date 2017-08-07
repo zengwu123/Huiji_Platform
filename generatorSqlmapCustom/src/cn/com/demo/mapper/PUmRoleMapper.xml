@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.demo.mapper.PUmRoleMapper">
+ 
+ <!-- 根据条件查询所有符合角色的个数 -->
+  <select id="getCountByRole" parameterType="pUmRole" resultType="int">
+  	select count(*) from p_um_role 
+  	<where>
+  <if test="roleid!=null and roleid!=''">and roleid=#{roleid}</if>
+  <if test="rolename!=null and rolename!=''">and rolename like '%${rolename}%'</if>
+  	</where>
+  </select>
+  
+ <!-- 条件分页查询所有用户 -->
+  <select id="selectByRolePage" resultType="pUmRole">
+  	select t.roleid,t.rolename,t.descn,t.code,t.flaginfo,t.sort,t.enabled,t.create_time,
+  	t.update_time from (select p.* ,rownum rn from p_um_role p 
+    <where>
+    <if test="role.roleid!=null and role.roleid!=''">and roleid=#{role.roleid}</if>
+    <if test="role.rolename!=null and role.rolename!=''">and rolename like '%${role.rolename}%'</if>
+    </where>
+    ) t where t.rn between (#{page}-1)*#{pageSize}+1 and #{page}*#{pageSize}
+  </select>
+  
+  <!-- 根据角色id删除角色 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from p_um_role where ROLEID = #{roleid}
+  </delete>
+  
+  <!-- 通过roleid 查找角色信息 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="pUmRole">
+    select * from p_um_role where ROLEID = #{roleid}
+  </select>
+  
+  <!-- 根据roleid修改角色信息 -->
+   <update id="updateByPrimaryKeySelective" parameterType="pUmRole" >
+    update p_um_role
+    <set >
+      <include refid="for_update_role"></include>
+    </set>
+    where roleid = #{roleid}
+  </update>
+  
+  <!-- 批量删除角色权限关系 -->
+  <delete id="delMoreRoleAuthority" parameterType="java.lang.String">
+  delete from p_um_role_authority where roleid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+   <!-- 批量删除多个角色 -->
+  <delete id="delMoreRole" parameterType="java.lang.String">
+  delete from p_um_role where roleid in
+  <foreach collection="array" item="items" open="(" separator="," close=")">
+  #{items}
+  </foreach>
+  </delete>
+  
+  
+  
+  
+  <!-- 修改sql -->
+  <sql id="for_update_role">
+  	  <if test="rolename != null and rolename=''" >
+        rolename = #{rolename},
+      </if>
+      <if test="descn != null descn=''">
+        descn = #{descn},
+      </if>
+      <if test="code != null code=''">
+        code = #{code},
+      </if>
+      <if test="flaginfo != null flaginfo=''" >
+        flaginfo = #{flaginfo},
+      </if>
+      <if test="sort != null sort=''" >
+        sort = #{sort},
+      </if>
+      
+      <if test="enabled != null enabled=''" >
+        enabled = #{enabled},
+      </if>
+      <if test="create_time != null create_time=''" >
+        create_time = #{create_time},
+      </if>
+      <if test="update_time != null update_time=''" >
+        update_time = #{update_time},
+      </if>
+  </sql>
+
+
+</mapper>
