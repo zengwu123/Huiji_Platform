@@ -1,0 +1,24 @@
+package cn.come.demo.service;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import cn.come.demo.mapper.TExaQuestionsMapper;
+
+@Service
+public class TExaQuestionsService {
+	@Resource
+	private TExaQuestionsMapper tExaQuestionsMapper;
+
+	/**
+	 * 
+	 * @function 方法名：addTExaQuestions
+	 * @param 参数：
+	 * @description 描述：插入题库列表，题目信息，题目选项
+	 * @return 返回参数：void
+	 */
+	public void addTExaQuestions(String subName, String exmName, String exmDesc, String str) {
+		tExaQuestionsMapper.addTExaQuestions(subName, exmName, exmDesc, str);
+	}
+}

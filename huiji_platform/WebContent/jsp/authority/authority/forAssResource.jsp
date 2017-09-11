@@ -57,9 +57,9 @@
 						</td>
 						</tr>
 						</table>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="btn btn-success" type="submit" value="关联资源">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="btn btn-success"  type="button" value="返回" onclick = "window.history.back(-1);">
+						<br><br>
+						<button class="badge badge-success" type="submit">关联资源</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a class="badge badge-success" onclick = "window.history.back(-1);">返回</a>
 						</form>
 						</div>
 					</div>

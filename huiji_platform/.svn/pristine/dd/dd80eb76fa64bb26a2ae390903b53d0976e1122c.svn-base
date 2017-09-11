@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.PUmResourcesMapper" >
+  
+  <!-- 查询资源 -->
+  <select id="selectResource" resultType="pUmResources">
+  	select *from p_um_resources
+  </select>
+  
+  <!-- 根据资源id删除资源 -->
+  <delete id="delResource" parameterType="String">
+  	delete from p_um_resources where resource_id=#{resource_id}
+  </delete>
+  
+  <!-- 根据资源id删除资源和权限的关联表数据 -->
+  <delete id="delAuthorityAndResource" parameterType="String">
+    delete from p_um_authority_resource where resource_id=#{resource_id}
+  </delete>
+  
+  <!-- 根据资源id查找资源信息 -->
+  <select id="forUpdResource" parameterType="String" resultType="pUmResources">
+    select *from p_um_resources where resource_id=#{resource_id}
+  </select>
+  
+  <!-- 根据资源id修改资源信息 -->
+  <update id="updResource" parameterType="pUmResources">
+  	update p_um_resources
+  	<set>
+  	<include refid="for_update_sql"></include>
+  	</set>
+  	where resource_id=#{resource_id}
+  </update>
+  
+  <!-- 增加资源 -->
+  <insert id="addResource" parameterType="pUmResources">
+   insert into p_um_resources
+   <trim prefix="(" suffix=")" suffixOverrides=",">
+      <include refid="for_insert_pre"></include>
+   </trim>
+   <trim prefix="values(" suffix=")" suffixOverrides=",">
+      <include refid="for_insert_suf"></include>
+   </trim>
+  </insert>
+  
+  <select id="getMaxResourceId" resultType="String">
+  select to_char(max(to_number(resource_id))+1) from p_um_resources
+  </select>
+  
+  <!-- 插入资源sql  前部分 -->
+  <sql id="for_insert_pre">
+  	 <if test="resource_id !=null and resource_id !=''">
+      resource_id,
+   </if>
+   <if test="resource_name !=null and resource_name !=''">
+      resource_name,
+   </if>
+    <if test="resource_type !=null and resource_type !=''">
+      resource_type,
+   </if>
+    <if test="priority !=null and priority !=''">
+      priority,
+   </if>
+    <if test="resource_url !=null and resource_url !=''">
+      resource_url,
+   </if>
+    <if test="resource_dec !=null and resource_dec !=''">
+      resource_dec,
+   </if>
+      enabled,
+      create_time,
+      update_time,
+  </sql>
+  
+  <!-- 插入资源sql  后部分 -->
+  <sql id="for_insert_suf">
+   <if test="resource_id !=null and resource_id !=''">
+      #{resource_id},
+   </if>
+   <if test="resource_name !=null and resource_name !=''">
+      #{resource_name},
+   </if>
+    <if test="resource_type !=null and resource_type !=''">
+      #{resource_type},
+   </if>
+    <if test="priority !=null and priority !=''">
+     #{priority},
+   </if>
+    <if test="resource_url !=null and resource_url !=''">
+      #{resource_url},
+   </if>
+    <if test="resource_dec !=null and resource_dec !=''">
+      #{resource_dec},
+   </if>
+      #{enabled},
+       sysdate,
+       sysdate,
+  </sql>
+  
+  <!-- 修改的sql 语句 -->
+  <sql id="for_update_sql">
+   <if test="resource_name!=null and resource_name!=''">
+      resource_name=#{resource_name},
+   </if>
+    <if test="resource_type!=null and resource_type!=''">
+      resource_type=#{resource_type},
+   </if>
+    <if test="priority !=null and priority !=''">
+      priority=#{priority},
+   </if>
+    <if test="resource_url !=null and resource_url !=''">
+      resource_url=#{resource_url},
+   </if>
+    <if test="resource_dec !=null and resource_dec !=''">
+      resource_dec=#{resource_dec},
+   </if>
+      enabled=#{enabled},
+      update_time=sysdate,
+  </sql>
+</mapper>

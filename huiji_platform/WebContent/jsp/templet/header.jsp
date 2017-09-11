@@ -13,7 +13,7 @@
         <li class="divider"></li>
         <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
         <li class="divider"></li>
-        <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+        <li><a href="#"><i class="icon-key">lay out</i> </a></li>
       </ul>
     </li>
     
@@ -30,6 +30,6 @@
     </li>
     
     <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-    <li class=""><a title="" href="${pageContext.request.contextPath }/loginOt.action"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+    <li class=""><a title="" href="${pageContext.request.contextPath }/logou.actiont"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a></li>
   </ul>
 </div>

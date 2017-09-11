@@ -1,37 +1,36 @@
 package cn.come.demo.controller;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import cn.come.demo.dto.UserInfoExtUser;
 import cn.come.demo.po.PUmUser;
 import cn.come.demo.service.PUmUserService;
+import cn.come.demo.utils.UserInfoSecurity;
 
 @Controller
 public class LoginController {
 	@Resource
 	private PUmUserService pUmUserService;
 
-	@RequestMapping("/loginCheckUser")
-	public @ResponseBody String loginCheckUser(PUmUser pUmUser, HttpSession session) {
-		PUmUser pUser = pUmUserService.selectByUser(pUmUser);
-		if (pUser != null) {
-			session.setAttribute("pUser", pUser);
-			pUmUserService.updUserInfo(pUmUser);
-			return "success";
-		}
-		return "false";
-	}
-
 	@RequestMapping("/loginUser")
-	public ModelAndView loginUser(String username, String password) {
-		System.out.println(password);
+	public ModelAndView loginUser(HttpServletRequest request) {
+		UserInfoExtUser userinfo=UserInfoSecurity.getSecurityUser();
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("base.definition");
+		if(null!=userinfo&&userinfo.getUserid()!=null){
+			request.getSession().setAttribute("userinfo", userinfo);
+			mv.addObject("userinfo", userinfo);
+			mv.setViewName("base.definition");
+			PUmUser pUmUser=new PUmUser();
+			pUmUser.setLoginid(userinfo.getLoginid());
+			pUmUserService.updUserInfo(pUmUser);
+		}else{
+			mv.setViewName("base.logout");
+		}
 		return mv;
 	}
+	
+	
 }

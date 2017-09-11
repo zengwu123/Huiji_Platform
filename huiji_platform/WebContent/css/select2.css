@@ -9,6 +9,9 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     *display: inline;
     vertical-align: top; width:90%;
 }
+.form-control {
+	z-index:99999;
+}
 .dataTables_length .select2-container{ width:auto!important;}
 .select2-container,
 .select2-drop,
@@ -50,7 +53,6 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     border-bottom-color: #aaa;
    
 }
-
 .select2-container .select2-choice span {
     margin-right: 26px;
     display: block;
@@ -91,7 +93,7 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     -moz-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
     -o-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
     box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
-    z-index: 9999;
+    z-index: 100000000000000000;
     width:100%;
     margin-top:-1px;
 

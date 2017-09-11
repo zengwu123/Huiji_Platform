@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.PaperMapper">
+
+<!-- //查询试卷模板列表 -->
+<select id="getPaperList" resultType="tPaper">
+	select *from t_exa_paper
+	<where>
+	<if test="examination_no != null and examination_no !=''">
+	  and examination_no=#{examination_no}
+	</if>
+	<if test="examination_name != null and examination_name !=''">
+	  and examination_name like '%${examination_name}%'
+	</if>
+	</where>
+</select>
+<!-- 生成试卷模板 -->
+<select id="createPaperTem" parameterType="java.util.Map" statementType="CALLABLE">
+	<![CDATA[
+	call pk_exam_test.pro_cre_paper_and_paperNum(
+		#{subject_no,mode=IN,jdbcType=NUMERIC},
+		#{examination_name,mode=IN,jdbcType=VARCHAR},
+		#{examination_content,mode=IN,jdbcType=VARCHAR},
+		#{exam_length,mode=IN,jdbcType=NUMERIC},
+		#{userName,mode=IN,jdbcType=VARCHAR},
+		#{str,mode=IN,jdbcType=VARCHAR}
+	)
+	]]>
+</select>
+
+<!-- 生成试卷模板 -->
+<select id="createPaperInfo" parameterType="java.lang.String" statementType="CALLABLE">
+	<![CDATA[
+	call pk_exam_test.pro_cre_paper_info(
+		#{examination_no,mode=IN,jdbcType=NUMERIC}
+	)
+	]]>
+</select>
+
+<!-- //得到试卷列表页面 -->
+<select id="getPaperInfoList" resultType="cn.come.demo.dto.PaperInfoTem">
+<!-- 从视图中查找 -->
+select * from v_paperInfo 
+<where>
+<if test="examination_no != null and examination_no !=''">
+	and examination_no=#{examination_no}
+</if>
+<if test="examination_name != null and examination_name !=''">
+	and examination_name like '%${examination_name}%'
+</if>
+</where>
+</select>
+
+<!--  查找试卷模板的状态-->
+<select id="checkPaperIsCreated" parameterType="java.lang.String" resultType="int">
+   select state from t_exa_paper where examination_no=#{examination_no}
+</select>
+</mapper>

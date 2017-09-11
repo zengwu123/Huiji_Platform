@@ -60,8 +60,8 @@ function end(){
        <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>权限列表</h5>
-            <a id="del" class="btn btn-warning">批量删除</a>
-            <a href="${pageContext.request.contextPath}/auth/toaddAuthority.action" class="btn btn-info">添加权限</a>
+            <a id="del" class="badge badge-important">批量删除</a>
+            <a href="${pageContext.request.contextPath}/auth/toaddAuthority.action" class="badge badge-success">添加权限</a>
           </div>
           <div class="widget-content ">
             <table class="table table-bordered table-striped with-check">
@@ -95,9 +95,9 @@ function end(){
                   <td>
                   <fmt:formatDate value="${l.create_time}" pattern="yyyy-MM-dd HH:mm:ss"/>
                   </td>
-                  <td><a class="btn btn-info" href="${pageContext.request.contextPath }/auth/toUpdAuthority.action?authorityid=${l.authorityid}">修改</a></td>
-                  <td><a onclick="if(confirm('是否确认删除？')==false)return false;" class="btn btn-danger" href="${pageContext.request.contextPath }/auth/delAuthority.action?authorityid=${l.authorityid}">删除</a></td>
-                  <td><a class="btn btn-success" href="${pageContext.request.contextPath }/resource/toShowResource.action?authorityid=${l.authorityid}">关联资源</a></td>
+                  <td><a class="badge badge-warning" href="${pageContext.request.contextPath }/auth/toUpdAuthority.action?authorityid=${l.authorityid}">修改</a></td>
+                  <td><a onclick="if(confirm('是否确认删除？')==false)return false;" class="badge badge-important" href="${pageContext.request.contextPath }/auth/delAuthority.action?authorityid=${l.authorityid}">删除</a></td>
+                  <td><a class="badge badge-success" href="${pageContext.request.contextPath }/resource/toShowResource.action?authorityid=${l.authorityid}">关联资源</a></td>
                 </tr>
                 </c:forEach>
               </tbody>

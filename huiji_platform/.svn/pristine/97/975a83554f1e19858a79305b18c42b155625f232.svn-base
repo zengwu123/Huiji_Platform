@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+        <tiles-definitions>
+        
+        <!-- 定义默认主页 -->       
+         <definition name="base.definition" template="/jsp/layout.jsp">
+            <put-attribute name="title" value="" />
+            <put-attribute name="header" value="/jsp/templet/header.jsp" />
+            <put-attribute name="menu" value="/jsp/templet/menu.jsp" />
+            <put-attribute name="body" value="/jsp/templet/content.jsp" />
+            <put-attribute name="footer" value="/jsp/templet/foot.jsp" />
+         </definition>
+         
+         
+        <!-- 用户信息 -->
+        <definition name="user.userList" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/user/userList.jsp" />
+         </definition>
+         
+      <!-- 角色信息 -->
+        <definition name="role.roleList" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/role/roleList.jsp" />
+         </definition>
+         
+       <!-- 修改角色信息 -->
+        <definition name="role.forUpad" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/role/forUdpRole.jsp" />
+         </definition>
+         
+         <!-- 去关联角色信息 -->
+        <definition name="ass.associationUser" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/user/forassUser.jsp" />
+         </definition>
+         
+          <!-- 修改用户信息 -->
+        <definition name="user.forUdpUser" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/user/forUdpuser.jsp" />
+         </definition>
+          <!-- 权限列表信息 -->
+        <definition name="auth.toAuthorityList" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/authority/authorityList.jsp" />
+        </definition>
+           <!--修改 权限信息 -->
+        <definition name="auth.toUpdAuthority" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/authority/toUpdAuthority.jsp" />
+        </definition>
+           <!-- 关联权限信息  -->
+        <definition name="auth.authRole" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/role/toAssAuthority.jsp" />
+        </definition>
+            <!-- 添加用户信息  -->
+        <definition name="user.forAddUser" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/user/forAddUser.jsp" />
+        </definition>
+        
+        <!-- 添加角色信息  -->
+        <definition name="role.foradd" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/role/forAddRole.jsp" />
+        </definition>
+        
+         <!-- 权限关联资源信息  -->
+        <definition name="resource.toresource" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/authority/forAssResource.jsp" />
+        </definition>
+        
+     
+        <!-- 添加权限信息  -->
+        <definition name="auth.addAuthority" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/authority/addAuthority.jsp" />
+        </definition>
+        
+        <!-- 资源列表展示  -->
+        <definition name="resource.resourceList" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/resource/resourceList.jsp" />
+        </definition>
+        
+        <!-- 跳转到修改页面  -->
+        <definition name="resource.updResource" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/resource/forUpdResource.jsp" />
+        </definition>
+        
+        
+        <!-- 跳转到修改页面  -->
+        <definition name="resource.forAddResource" extends="base.definition">
+            <put-attribute name="body" value="/jsp/authority/resource/forAddResource.jsp" />
+        </definition>
+        
+         
+         <!-- ui页面案例模板 -->
+     <definition name="example.error403" extends="base.definition">
+        <put-attribute name="title" value="error403"/>
+        <put-attribute name="body" value="/jsp/example/error403.jsp"/>
+    </definition>
+    <definition name="example.error404" extends="base.definition">
+        <put-attribute name="title" value="error404"/>
+        <put-attribute name="body" value="/jsp/example/error404.jsp"/>
+    </definition>
+    <definition name="example.error405" extends="base.definition">
+        <put-attribute name="title" value="error405"/>
+        <put-attribute name="body" value="/jsp/example/error405.jsp"/>
+    </definition>
+    <definition name="example.error500" extends="base.definition">
+        <put-attribute name="title" value="error500"/>
+        <put-attribute name="body" value="/jsp/example/error500.jsp"/>
+    </definition>
+     <definition name="example.table" extends="base.definition">
+        <put-attribute name="title" value="table"/>
+        <put-attribute name="body" value="/jsp/example/table.jsp"/>
+    </definition>
+    <definition name="example.button_and_icons" extends="base.definition">
+        <put-attribute name="title" value="button_and_icons"/>
+        <put-attribute name="body" value="/jsp/example/button_and_icons.jsp"/>
+    </definition>
+    <definition name="example.gallery" extends="base.definition">
+        <put-attribute name="title" value="gallery"/>
+        <put-attribute name="body" value="/jsp/example/gallery.jsp"/>
+    </definition>
+      <definition name="example.form_common" extends="base.definition">
+        <put-attribute name="title" value="form_common"/>
+        <put-attribute name="body" value="/jsp/example/form_common.jsp"/>
+    </definition>
+      <definition name="example.form_validation" extends="base.definition">
+        <put-attribute name="title" value="form_validation"/>
+        <put-attribute name="body" value="/jsp/example/form_validation.jsp"/>
+    </definition>
+      <definition name="example.form_wizard" extends="base.definition">
+        <put-attribute name="title" value="form_wizard"/>
+        <put-attribute name="body" value="/jsp/example/form_wizard.jsp"/>
+    </definition>
+      <definition name="example.gridlayout" extends="base.definition">
+        <put-attribute name="title" value="gridlayout"/>
+        <put-attribute name="body" value="/jsp/example/gridlayout.jsp"/>
+    </definition>
+      <definition name="example.index_info" extends="base.definition">
+        <put-attribute name="title" value="index_info"/>
+        <put-attribute name="body" value="/jsp/example/index_info.jsp"/>
+    </definition>
+      <definition name="example.interface_elements" extends="base.definition">
+        <put-attribute name="title" value="interface_elements"/>
+        <put-attribute name="body" value="/jsp/example/interface_elements.jsp"/>
+    </definition>
+        
+ </tiles-definitions>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.TExaQuestionsMapper" >
+
+<!-- 调用存储过程，生成题库列表，题库信息，题库明细表 -->
+<select id="addTExaQuestions" parameterType="java.lang.String" statementType="CALLABLE">
+      <![CDATA[   
+	   {call pk_exam_test.pro_cre_exam_questions(
+           #{subName,mode=IN,jdbcType=VARCHAR},
+           #{exmName,mode=IN,jdbcType=VARCHAR},
+           #{exmDesc,mode=IN,jdbcType=VARCHAR},
+           #{str,mode=IN,jdbcType=CLOB}
+        )}   
+	    ]]>  
+</select>
+</mapper>

@@ -1,0 +1,59 @@
+package cn.come.demo.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import cn.come.demo.dto.PaperInfoTem;
+import cn.come.demo.dto.PaperTem;
+import cn.come.demo.mapper.PaperMapper;
+import cn.come.demo.po.TPaper;
+import cn.come.demo.po.TPaperInfo;
+@Service
+public class PaperService {
+	@Resource
+	private PaperMapper paperMapper;
+	/**
+	 * @function 方法名：getPaperInfoList
+	 * @param 参数：@return
+	 * @description 描述：查询所有的试卷模板列表
+	 * @return 返回参数：List<TPaper>
+	 */
+	public List<TPaper> getPaperList() {
+		
+		return paperMapper.getPaperList();
+	}
+	//定制试题模板
+	public void createPaperTem(String userName, PaperTem paperTem) {
+		Long subject_no = paperTem.getSubject_no();
+		Long exam_length = paperTem.getExam_length();
+		String examination_name = paperTem.getExamination_name();
+		String examination_content = paperTem.getExamination_content();
+		StringBuffer str=new StringBuffer();
+		str.append("1").append("@|").append(paperTem.getPaperNum1()).append("@|")
+		.append(paperTem.getPaperScore1()).append("@|@|").append("2").append("@|")
+		.append(paperTem.getPaperNum2()).append("@|").append(paperTem.getPaperScore2())
+		.append("@|@|").append("3").append("@|").append(paperTem.getPaperNum3()).append("@|")
+		.append(paperTem.getPaperScore3());
+		Map<String,Object> map=new HashMap<>();
+		map.put("subject_no", subject_no);map.put("exam_length", exam_length);
+		map.put("examination_name", examination_name);map.put("examination_content", examination_content);
+		map.put("str", str.toString());map.put("userName", userName);
+		paperMapper.createPaperTem(map);
+	}
+	
+	//生成试题
+	public void createPaperInfo(String examination_no) {
+		paperMapper.createPaperInfo(examination_no);
+		
+	}
+	//得到试卷列表页面
+	public List<PaperInfoTem> getPaperInfoList() {
+		return paperMapper.getPaperInfoList();
+	}
+
+}

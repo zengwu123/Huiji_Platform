@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.come.demo.mapper.PUmUserMapper">
 
+<!-- 根据登陆id获取用户信息 -->
+<select id="findUserinfoByLoginId" parameterType="String" resultType="cn.come.demo.dto.UserInfoExtUser">
+	select userid,loginid,username,password from P_UM_USER where loginid=#{_parameter}
+</select>
+
+<!-- spring 安全 根据用户名获取权限集合 -->
+<select id="findAuthorityByUsername" parameterType="String" resultType="pUmAuthority">
+select a.* from P_UM_USER u,p_um_user_role ur,p_um_role r,
+p_um_role_authority ra,p_um_authority a where u.userid=ur.userid and ur.roleid=r.roleid 
+and r.roleid=ra.roleid and ra.authorityid=a.authorityid and u.userid=#{_parameter}
+</select>
+
 <!-- 登陆时候记录登陆时间和登陆次数 -->
 <update id="updUserInfo" parameterType="pUmUser">
-   update p_um_user set LOGINLASTTIME=sysdate,logincount=(
-select logincount from p_um_user where username=#{username} and password=#{password}
-)+1 where username=#{username} and password=#{password}
+   update p_um_user set
+   LOGINLASTTIME=sysdate,
+   logincount=(select logincount from p_um_user where loginid=#{loginid})+1 
+   where loginid=#{loginid}
 </update>
 
  <!-- 查询用户登陆是否正确 -->

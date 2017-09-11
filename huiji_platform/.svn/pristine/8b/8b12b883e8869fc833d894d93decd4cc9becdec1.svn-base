@@ -1,0 +1,54 @@
+package cn.come.demo.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import cn.come.demo.mapper.TSubListMapper;
+import cn.come.demo.po.TSubjectInfo;
+import cn.come.demo.utils.PoiReadExcleUtil;
+
+@Service
+public class TSubListService {
+@Resource
+private TSubListMapper eSubListMapper;
+
+//获取所有科目列表
+public List<TSubjectInfo> getSubList(){
+	return eSubListMapper.getSubjectList();
+}
+//根据id获取单个科目信息
+public TSubjectInfo getSubById(Long id){
+	return eSubListMapper.getSubById(id);
+}
+//修改科目信息
+public void updSubject(TSubjectInfo tSubjectInfo) {
+	eSubListMapper.updSubject(tSubjectInfo);
+	
+}
+//删除科目信息
+public void delSubById(Long subject_no) {
+	eSubListMapper.delSubById(subject_no);
+}
+//增加题库列表
+public String creatQuesList(String select, String qName, String qDesc) {
+	Map<String, String> map=new HashMap<>();
+	map.put("flag", "0");
+	map.put("select",select);
+	map.put("qName",qName);
+	map.put("qDesc",qDesc );
+	eSubListMapper.creatQuesList(map);
+	return map.get("flag");
+}
+//创建题库明细，答案选项明细表
+public void creatQueAndAnswer(String queNo, String fileQuestion) throws Exception {
+	PoiReadExcleUtil pi=new PoiReadExcleUtil();
+	String strPath = pi.getExcelString(fileQuestion).toString();
+	eSubListMapper.creatQueAndAnswer(strPath,queNo);
+}
+
+}

@@ -12,32 +12,32 @@
         <link href="${pageContext.request.contextPath }/font-awesome/css/font-awesome.css" rel="stylesheet" />
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 		<script src="${pageContext.request.contextPath }/js/jquery.min.js"></script>  
-        <script src="${pageContext.request.contextPath }/js/matrix.login2.js"></script> 
+        <%-- <script src="${pageContext.request.contextPath }/js/matrix.login2.js"></script> --%> 
 		
     </head>
     <body>
         <div id="loginbox">            
-            <form id="loginform" class="form-vertical" action="${pageContext.request.contextPath }/loginUser.action" method="post"  >
+            <form id="loginform" class="form-vertical" action="${pageContext.request.contextPath }/login.action" method="post"  >
 				 <div class="control-group normal_text"> 
-				  <div id="message" >Enter username and password to continue... </div>
+				  <div id="message" >请输入用户名和密码... </div>
 				  </div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name="username" placeholder="username" />
+                            <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name="loginid" placeholder="登陆ID"/>
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="password" />
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="密码"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>
-                    <span class="pull-right"><a href="#" class="btn btn-success"  id="to-login"> Login</a></span>
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">注册账号?</a></span>
+                    <span class="pull-right"><input type="submit" class="btn btn-success"  id="to-login" value="登陆"></span>
                   
                 </div>
             </form>

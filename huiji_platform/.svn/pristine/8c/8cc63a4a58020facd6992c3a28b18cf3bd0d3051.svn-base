@@ -1,0 +1,36 @@
+package cn.come.demo.service;
+
+import javax.annotation.Resource;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import cn.come.demo.mapper.PaperMapper;
+import cn.come.demo.po.TSubjectInfo;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:spring/application-dao.xml","classpath:spring/application-service.xml"})
+public class TSubListServiceTest {
+
+	@Resource
+	private TSubListService tSubListService;
+	
+	@Resource
+	PaperMapper paperMapper;
+
+	@Test
+	public void testGetSubList() {
+		TSubjectInfo sub = tSubListService.getSubById(10L);
+		
+			System.out.println(sub.getSubject_name()+" ====== "+sub.getSubject_no());
+	}
+	
+	@Test
+	public void testPaperMapper(){
+		paperMapper.getPaperList();
+//		paperMapper.createPaperTem(map);
+	}
+
+}

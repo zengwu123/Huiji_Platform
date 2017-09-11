@@ -1,23 +1,32 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <div id="sidebar">
   <ul>
-    <li><a href="#"><i class="icon icon-home"></i> <span>我的订单</span></a> </li>
-   
-    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>用户管理</span> <span class="label label-important">3</span></a>
+    
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>登陆管理</span> <span class="label label-important">3</span></a>
       <ul>
-        <li><a href="${pageContext.request.contextPath }/user/findStudentList.action">学生列表</a></li>
-        <li><a href="#">注册用户</a></li>
-        <li><a href="#">密码管理</a></li>
-        <li><a href="${pageContext.request.contextPath }/loginOut.action">退出登录</a></li>
+        <li><a href="${pageContext.request.contextPath }/logou.actiont">退出登录</a></li>
       </ul>
     </li>
     
-    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>权限管理</span> <span class="label label-important">3</span></a>
+    <li class="submenu"> <a href="#"><i class="icon icon-lock"></i> <span>权限管理</span> <span class="label label-important">3</span></a>
       <ul>
+      <sec:authorize access="hasRole('ROLE_AUTHORITY')">
         <li><a href="${pageContext.request.contextPath}/user/userList.action?page=1">用户列表</a></li>
+      </sec:authorize> 
         <li><a href="${pageContext.request.contextPath}/role/roleList.action?page=1">角色列表</a></li>
         <li><a href="${pageContext.request.contextPath}/auth/authority.action?page=1">权限列表</a></li>
         <li><a href="${pageContext.request.contextPath}/resource/resourceList.action">资源列表</a></li>
+      </ul>
+    </li>
+    <!-- 考试模块 -->
+    <li class="submenu"> <a href="#"><i class="icon icon-heart"></i> <span>考试管理</span> <span class="label label-important">3</span></a>
+      <ul>
+        <li><a href="${pageContext.request.contextPath}/exam/subjectList.action?page=1">科目列表</a></li>
+        <li><a href="${pageContext.request.contextPath}/que/QuestionsList.action?page=1">题库列表</a></li>
+        <li><a href="${pageContext.request.contextPath}/paper/paper.action?page=1">试卷模板</a></li>
+        <li><a href="${pageContext.request.contextPath}/paper/paperInfo.action?page=1">试卷列表</a></li>
+        <li><a href="${pageContext.request.contextPath}/exam/paperInfoScoreList.action?page=1">成绩列表</a></li>
       </ul>
     </li>
    

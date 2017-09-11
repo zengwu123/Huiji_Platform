@@ -61,8 +61,8 @@ function end(){
        <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>用户列表</h5>
-            <a id="del" class="btn btn-warning">批量删除</a> 
-            <a href="${pageContext.request.contextPath}/user/forAdd.action" class="btn btn-info">添加用户</a> 
+            <a id="del" class="badge badge-important">批量删除</a> 
+            <a href="${pageContext.request.contextPath}/user/forAdd.action" class="badge badge-success">添加用户</a> 
           </div>
           <div class="widget-content ">
             <table class="table table-bordered table-striped with-check">
@@ -92,9 +92,9 @@ function end(){
                   <td>
                   <fmt:formatDate value="${list.update_time}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                   </td>
-                  <td ><a class="btn btn-info" href="${pageContext.request.contextPath}/user/forUdpById.action?userid=${list.userid}">修改</a></td>
-                  <td><a onclick="if(confirm('确定删除?')==false)return false;" class="btn btn-danger" href="${pageContext.request.contextPath}/user/delById.action?userid=${list.userid}">删除</a></td>
-                  <td><a class="btn btn-success" href="${pageContext.request.contextPath}/association/associationUser.action?userid=${list.userid}">关联角色</a></td>
+                  <td ><a class="badge badge-warning" href="${pageContext.request.contextPath}/user/forUdpById.action?userid=${list.userid}">修改</a></td>
+                  <td><a onclick="if(confirm('确定删除?')==false)return false;" class="badge badge-important" href="${pageContext.request.contextPath}/user/delById.action?userid=${list.userid}">删除</a></td>
+                  <td><a class="badge badge-success" href="${pageContext.request.contextPath}/association/associationUser.action?userid=${list.userid}">关联角色</a></td>
                   </tr>
                 </c:forEach>
                

@@ -106,8 +106,8 @@ $(function(){
             </div>
             
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">提交</button>
-               <input type="button" value="返回" onclick = "window.history.back(-1);" class="btn btn-success">
+              <button type="submit" class="badge badge-success">提交</button>
+               <a onclick = "window.history.back(-1);" class="badge badge-success">返回</a>
             </div>
           </form>
         </div>

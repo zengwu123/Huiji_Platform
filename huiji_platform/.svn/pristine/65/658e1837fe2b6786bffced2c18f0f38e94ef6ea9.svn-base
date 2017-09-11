@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.come.demo.mapper.TSubjectInfoMapper">
+
+	<!-- 通过poi使用Excel导入科目信息 -->
+	<insert id="saveSubjectByPoi" parameterType="java.util.List">
+		insert into t_subject_info(
+		subject_no,
+		subject_code,
+		subject_name,
+		class_content,
+		calss_target,
+		class_hour,
+		father_subject,
+		create_time,
+		update_time)
+		
+		<foreach open="(" close=")" collection="list" item="items" index="index" separator="union all">
+				select
+				#{items.subject_no},
+				#{items.subject_code},
+				#{items.subject_name},
+				#{items.class_content,jdbcType=VARCHAR},
+				#{items.calss_target,jdbcType=VARCHAR},
+				#{items.class_hour,jdbcType=NUMERIC},
+				#{items.father_subject},
+			    sysdate,
+		        sysdate	
+		        from dual
+		       
+		</foreach>
+		 
+	</insert>
+</mapper>

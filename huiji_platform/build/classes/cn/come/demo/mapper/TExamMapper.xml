@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.TExamMapper">
+	
+	<resultMap type="cn.come.demo.dto.ExtendTPaper" id="find_exam_paper_info_extendTPaper">
+		<id property="examination_no" column="examination_no"/>
+		<result property="examination_name" column="examination_name"/>
+		<result property="examination_type" column="examination_type"/>
+		<result property="exam_length" column="exam_length"/>
+		<collection property="extendTPaperInfo" ofType="cn.come.demo.dto.ExtendTPaperInfo">
+			<result property="question_type" column="question_type"/>
+			<result property="question_nscore" column="question_score"/>
+			<result property="question_num" column="question_num"/>
+			<result property="examination_id" column="examination_id"/>
+			<result property="total_score" column="total_score"/>
+			<result property="question_name" column="question_name"/>
+			<collection property="tPaperList" ofType="cn.come.demo.po.TPaperList">
+				<result property="answer_num" column="answer_num"/>
+				<result property="answer_content" column="answer_content"/>
+				<result property="istrue" column="istrue"/>
+			</collection>
+		</collection>
+		
+	</resultMap>
+	
+	<!-- 生成考号和答题卡模板 -->
+	<select id="createExamNo" parameterType="java.util.Map" statementType="CALLABLE">
+		<![CDATA[call pk_exam_test.pro_cre_examId_examModel(
+		#{num,mode=IN,jdbcType=INTEGER},
+		#{examination_no,mode=IN,jdbcType=VARCHAR}
+		)]]>
+	</select>
+	
+	<!-- 查找所有未被使用的考试编号 -->
+	<select id="findExaminfoNo" parameterType="java.lang.String" resultType="t_ExaminationInfo">
+		select examination_info_no from t_examination_info where examination_info_no not in(
+		select examination_info_no from t_examination_list where choose_key is not null)
+		and examination_no=#{data}
+	</select>
+	
+	<!-- 得到试卷页面所有内容展示出来 -->
+	<select id="getPaperInfoList" parameterType="java.lang.String"
+		resultMap="find_exam_paper_info_extendTPaper">
+		select *from v_paperinfo_to_exam where examination_no=#{examination_no}
+	</select>
+	
+	<update id="udpExamInfo" parameterType="java.util.Map">
+		update t_examination_info set examination_user=#{studentName},
+		start_time=#{date} where examination_info_no=#{exam_info_no}
+	</update>
+
+	<!--考试完成， 得到分数和对错个数 -->
+	<select id="calScores" parameterType="java.util.Map" statementType="CALLABLE">
+		<![CDATA[call pk_exam_test.pro_calScores_return_scores(
+			#{dataStr,mode=IN,jdbcType=VARCHAR},
+			#{exam_info_no,mode=IN,jdbcType=VARCHAR},
+			#{scores,mode=OUT,jdbcType=INTEGER},
+			#{rightNum,mode=OUT,jdbcType=INTEGER},
+			#{errorNum,mode=OUT,jdbcType=INTEGER})]]>
+	</select>
+	
+	<!-- 查看答案明细列表 -->
+	<select id="answerDetialsList" parameterType="t_ExaminationList" resultType="t_ExaminationList">
+		select * from t_examination_list 
+		<where>
+		<if test="examination_id != null and examination_id !=''">and examination_id=#{examination_id}</if>
+		<if test="question_type != null and question_type !=''">and question_type=#{question_type}</if>
+		<if test="examination_info_no != null and examination_info_no !=''">and examination_info_no=#{examination_info_no}</if>
+		</where>
+		 order by question_no
+	</select>
+	
+	<!-- expolExcle -->
+	<select id="expolExcle" parameterType="java.lang.String" resultType="cn.come.demo.dto.T_Examinationextend">
+		select examination_info_no,question_type,question_num,choose_key,
+		right_key,create_time from t_examination_list 
+		where examination_info_no=#{examination_info_no} order by question_no
+	</select>
+	
+	<select id="getPaperInfoScoreList" parameterType="t_ExaminationInfo" resultType="t_ExaminationInfo">
+		select *from t_examination_info
+		<where>
+		and right_num is not null
+		<if test="examination_info_no !=null and examination_info_no !=''">
+			and examination_info_no=#{examination_info_no}
+		</if>
+		<if test="examination_user !=null and examination_user !=''">
+			and examination_user like '%${examination_user}%'
+		</if>
+		</where>
+	</select>
+</mapper>

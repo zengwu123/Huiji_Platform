@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+   
+   <!-- 首先需要配置哪些不需要经过spring-security，使用http标签 -->
+   <!-- 配置公共资源，不需要经过权限 -->
+   <http pattern="/jsp/longin.jsp" security="none"/>
+   <http pattern="/css/**" security="none"/>
+   <http pattern="/js/**" security="none"/>
+   <http pattern="/font-awesome/**" security="none"/>
+   <http pattern="/img/**" security="none"/>
+   
+   <!-- 配置http标签，设置auto——config 自动配置过虑器，即过虑器的执行顺序 -->
+   
+   <http auto-config="true" use-expressions="true">
+   
+   <!-- 配置form-login来设置登陆页面 -->
+   
+ 	<form-login 
+ 	login-page="/jsp/login.jsp"
+    login-processing-url="/login.action"
+ 	username-parameter="loginid"
+    password-parameter="password"
+ 	authentication-failure-url="/jsp/login.jsp"
+ 	/>
+ 	
+   
+   <!-- 设置没有访问权限的页面 -->
+   <access-denied-handler error-page="/jsp/loginfailure.jsp"/>
+   
+   <!-- 接下来我们定义角色和访问权限之间的关系,也就是哪些权限可以访问哪些页面，没有权限则返回403 -->
+   <intercept-url pattern="/jsp/authority/user/forAddUser.jsp" access="hasRole('ROLE_ADMIN')"/>
+   <!-- <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/> -->
+   </http>
+   
+  <!-- 获取用户所具有的角色认证管理，需要自己编写service来实现，需要实现UserDetailsService接口 --> 
+  
+  <authentication-manager>
+  
+  	<authentication-provider user-service-ref="authUserInfoService">
+  	<password-encoder ref="passwordEncoder">
+  		<salt-source user-property="loginid"/>
+  	</password-encoder>
+  	</authentication-provider>
+  </authentication-manager>
+   
+</beans:beans>

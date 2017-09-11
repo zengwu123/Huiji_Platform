@@ -64,8 +64,8 @@ function end(){
 						<span class="icon"> <i class="icon-th"></i>
 						</span>
 						<h5>角色列表</h5>
-						<a id="del" class="btn btn-warning">批量删除</a>
-						<a href="${pageContext.request.contextPath}/role/forAddRole.action" class="btn btn-info">添加角色</a>
+						<a id="del" class="badge badge-important">批量删除</a>
+						<a href="${pageContext.request.contextPath}/role/forAddRole.action" class="badge badge-success">添加角色</a>
 					</div>
 						<div class="widget-content ">
 							<table class="table table-bordered table-striped with-check">
@@ -97,11 +97,11 @@ function end(){
 											<td>
 											<fmt:formatDate value="${list.update_time}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
-											<td><a class="btn btn-info"
+											<td><a class="badge badge-warning"
 												href="${pageContext.request.contextPath }/role/updbyid.action?roleid=${list.roleid}">修改</a></td>
-											<td><a class="btn btn-danger" onclick="if(confirm('是否确定删除？')==false)return false;"
+											<td><a class="badge badge-important" onclick="if(confirm('是否确定删除？')==false)return false;"
 												href="${pageContext.request.contextPath }/role/deletebyid.action?roleid=${list.roleid}">删除</a></td>
-											<td><a class="btn btn-success"
+											<td><a class="badge badge-success"
 												href="${pageContext.request.contextPath }/roleAuth/toAuthbyid.action?roleid=${list.roleid}">关联权限</a></td>
 										</tr>
 									</c:forEach>

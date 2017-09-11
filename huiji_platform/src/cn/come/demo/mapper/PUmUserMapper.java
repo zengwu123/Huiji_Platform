@@ -3,6 +3,8 @@ package cn.come.demo.mapper;
 import java.util.List;
 import java.util.Map;
 
+import cn.come.demo.dto.UserInfoExtUser;
+import cn.come.demo.po.PUmAuthority;
 import cn.come.demo.po.PUmUser;
 
 public interface PUmUserMapper {
@@ -57,4 +59,14 @@ public interface PUmUserMapper {
 	  * 登陆记录登陆时间和登陆次数
 	  */
 	void updUserInfo(PUmUser pUmUser);
+	
+	/*
+	 * 根据用户id获取权限集合
+	 */
+	List<PUmAuthority> findAuthorityByUsername(String userid);
+	
+	/*
+	 * 根据登陆id获取用户信息
+	 */
+	UserInfoExtUser findUserinfoByLoginId(String loginid);
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.TExaQuestionsMapper" >
+
+<!-- 调用存储过程，生成题库列表，题库信息，题库明细表 -->
+<select id="addTExaQuestions" parameterType="java.lang.String" statementType="CALLABLE">
+      <![CDATA[   
+	   {call pk_exam_test.pro_cre_exam_questions(
+           #{subName,mode=IN,jdbcType=VARCHAR},
+           #{exmName,mode=IN,jdbcType=VARCHAR},
+           #{exmDesc,mode=IN,jdbcType=VARCHAR},
+           #{str,mode=IN,jdbcType=CLOB}
+        )}   
+	    ]]>  
+</select>
+
+<!-- 得到题库列表list -->
+<select id="getTExaQuestions" parameterType="tExaQuestions" resultType="tExaQuestions">
+	select *from t_exa_questions
+	<where>
+	<if test="questions_no != null and questions_no !=''">
+		and questions_no=#{questions_no}
+	</if>
+	<if test="questions_name != null and questions_name !=''">
+		and questions_name like '%${questions_name}%'
+	</if>
+	</where>
+</select>
+</mapper>

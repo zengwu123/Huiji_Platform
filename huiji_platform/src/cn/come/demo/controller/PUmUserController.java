@@ -6,14 +6,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.come.demo.dto.UserRole;
 import cn.come.demo.po.PUmRole;
 import cn.come.demo.po.PUmUser;
-import cn.come.demo.po.PUmUserRole;
 import cn.come.demo.service.PUmRoleService;
 import cn.come.demo.service.PUmUserRoleService;
 import cn.come.demo.service.PUmUserService;

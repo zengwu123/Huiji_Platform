@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.come.demo.mapper.TSubListMapper">
+
+	<select id="getSubjectList" resultType="tSubjectInfo">
+		select *from t_subject_info
+	</select>
+
+	<!-- 根据id获取科目信息 -->
+	<select id="getSubById" parameterType="Long" resultType="tSubjectInfo">
+		select *from t_subject_info where subject_no=#{id}
+	</select>
+
+	<!-- 根据id修改科目信息 -->
+	<update id="updSubject" parameterType="tSubjectInfo">
+		update t_subject_info 
+		<set>
+			<if test="subject_name !=null and subject_name !=''">subject_name=#{subject_name},</if>
+			<if test="class_content !=null and class_content !=''">class_content=#{class_content},</if>
+			<if test="calss_target !=null and calss_target !=''">calss_target=#{calss_target},</if>
+			<if test="class_hour !=null">class_hour=#{class_hour,jdbcType=INTEGER},</if>
+			update_time=sysdate
+		</set>
+		where subject_no=#{subject_no}
+	</update>
+	<!-- 根据id删除科目信息 -->
+	<delete id="delSubById" parameterType="Long">
+		delete from t_subject_info where subject_no=#{subject_no}
+	</delete>
+	
+	<!-- //增加题库列表 -->
+	<select id="creatQuesList" parameterType="java.util.Map" statementType="CALLABLE">
+	   call pk_exam_test.pro_cre_questions_list(
+	   #{flag,mode=OUT,jdbcType=VARCHAR},
+	   #{select,mode=IN,jdbcType=VARCHAR},
+	   #{qName,mode=IN,jdbcType=VARCHAR},
+	   #{qDesc,mode=IN,jdbcType=VARCHAR})
+	</select>
+	
+	<!-- //创建题库明细，答案选项明细表 -->
+	<select id="creatQueAndAnswer" parameterType="java.util.Map" statementType="CALLABLE">
+	      CALL pk_exam_test.pro_cre_exam_questions(
+	      	#{strPath,mode=IN,jdbcType=VARCHAR},
+	      	#{queNo,mode=IN,jdbcType=VARCHAR}
+	      )
+	</select>
+</mapper>

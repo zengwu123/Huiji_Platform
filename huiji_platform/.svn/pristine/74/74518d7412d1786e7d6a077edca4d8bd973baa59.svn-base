@@ -1,0 +1,87 @@
+package cn.come.demo.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import cn.come.demo.po.TExaQuestions;
+import cn.come.demo.po.TSubjectInfo;
+import cn.come.demo.service.TSubListService;
+
+@Controller
+@RequestMapping("/exam")
+public class TSubjectListController {
+@Resource
+private TSubListService tSubListService;
+//exam/creatQue.action
+@RequestMapping("/subjectList.action")
+public ModelAndView getSubList(){
+	List<TSubjectInfo> subList = tSubListService.getSubList();
+	ModelAndView mv=new ModelAndView();
+	mv.addObject("subList", subList);
+	mv.setViewName("exam.subjectList");
+	return mv;
+}
+//准备修改查询科目信息
+@RequestMapping("/forUdpById")
+public ModelAndView findForUdpById(Long subject_no){
+	TSubjectInfo subjectInfo = tSubListService.getSubById(subject_no);
+	ModelAndView mv=new ModelAndView();
+	mv.addObject("subjectInfo", subjectInfo);
+	mv.setViewName("exam.forUpdate");
+	return mv;
+}
+
+//修改科目信息
+@RequestMapping("/updateSub")
+public String updateSub(TSubjectInfo tSubjectInfo){
+	tSubListService.updSubject(tSubjectInfo);
+	return "redirect:subjectList.action";
+}
+//删除科目信息
+@RequestMapping("/delSubById")
+public String delSubById(Long subject_no){
+	tSubListService.delSubById(subject_no);
+	return "redirect:subjectList.action";
+}
+
+//查找科目信息，跳转到增加题库页面
+@RequestMapping("/forCreaQue")
+public ModelAndView forCreateQue(){
+	List<TSubjectInfo> SubList=tSubListService.getSubList();
+	ModelAndView mv =new ModelAndView();
+	mv.addObject("SubList", SubList);
+	mv.setViewName("exam.forCreaQue");
+	return mv;
+}
+
+//插入题库列表
+@RequestMapping("/tmlb")
+public ModelAndView tmlb(String select,String qName,String qDesc,HttpSession session){
+	String queNo = tSubListService.creatQuesList(select,qName,qDesc);
+	session.setAttribute("queNo", queNo);
+	return null;
+}
+//查找科目信息，跳转到增加题库页面
+@RequestMapping("/creatQue")
+public ModelAndView creatQue(HttpSession session,String fileQuestion) throws Exception{
+	String queNo = (String) session.getAttribute("queNo");
+	tSubListService.creatQueAndAnswer(queNo,fileQuestion);
+	ModelAndView mv =new ModelAndView();
+	mv.setViewName("redirect:subjectList.action");
+	return mv;
+}
+
+}

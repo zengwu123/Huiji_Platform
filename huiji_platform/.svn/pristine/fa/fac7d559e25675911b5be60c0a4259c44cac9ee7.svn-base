@@ -1,0 +1,13 @@
+package cn.come.demo.mapper;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface TExaQuestionsMapper {
+
+	//调用存储过程，生成题库列表，题库信息，题库明细表
+	public void addTExaQuestions(
+			@Param("subName")String subName,
+			@Param("exmName")String exmName,
+			@Param("exmDesc")String exmDesc,
+			@Param("str")String str);
+}

@@ -45,8 +45,8 @@
 						<tr>
 						<td>
 						<input name="roleid" type="hidden" value="${roleid}">
-						<input class="btn btn-success" type="submit" value="关联角色">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="btn btn-success"  type="button" value="返回" onclick = "window.history.back(-1);">
+						<button class="badge badge-success" type="submit">关联角色</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a class="badge badge-success" onclick = "window.history.back(-1);">返回</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<c:forEach items="${authority }" var="list">
 						<input type="checkbox" name="checked" ${list.isrole!='1' ? "checked='checked'":"" } value="${list.authorityid}"/>&nbsp;&nbsp;&nbsp;
