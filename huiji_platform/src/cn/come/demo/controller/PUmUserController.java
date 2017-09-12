@@ -65,6 +65,8 @@ public class PUmUserController {
 		mv.setViewName("user.forUdpUser");
 		return mv;
 	}
+	
+	//添加用户信息
 	@RequestMapping("/forAdd")
 	public ModelAndView forAdd(){
 		String maxId=pUmUserService.findMaxUerId();

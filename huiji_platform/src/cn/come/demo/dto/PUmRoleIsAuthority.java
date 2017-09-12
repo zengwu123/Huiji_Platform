@@ -2,6 +2,7 @@ package cn.come.demo.dto;
 
 import cn.come.demo.po.PUmAuthority;
 
+@SuppressWarnings("serial")
 public class PUmRoleIsAuthority extends PUmAuthority {
 private String isrole;
 

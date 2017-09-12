@@ -16,7 +16,7 @@
 		
     </head>
     <body>
-        <div id="loginbox">            
+        <div id="loginbox" >            
             <form id="loginform" class="form-vertical" action="${pageContext.request.contextPath }/login.action" method="post"  >
 				 <div class="control-group normal_text"> 
 				  <div id="message" >请输入用户名和密码... </div>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">注册账号?</a></span>
+                    <span class="pull-left"><a href="${pageContext.request.contextPath}/forRegist.action" class="flip-link btn btn-info" id="to-recover">注册账号?</a></span>
                     <span class="pull-right"><input type="submit" class="btn btn-success"  id="to-login" value="登陆"></span>
                   
                 </div>

@@ -23,31 +23,6 @@
 
 <title>添加题库信息</title>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.7.2.js"></script>
-<script type="text/javascript">
-/* $(function(){
-	$("#p").click(
-		function check(){
-		    var subject_name=$("input[name='subject_name']").val();
-			var questions_name=$("input[name='questions_name']").val();
-			var qDesc=$("input[name='questions_desc']").val();
-			var jsonObj={"subject_name":subject_name,"questions_name":questions_name,"qDesc":qDesc};
-				$.ajax({
-					type:"post",
-					data:jsonObj,
-					dataType:"json",
-					url:"${pageContext.request.contextPath}/exam/tmlb.action",
-					success:function(result){
-						$("#frm").attr("onsubmit","true");
-						$("#frm").submit()
-						}
-					})
-			}	
-	)
-})
-
- */
-
-</script>
 </head>
 <body>
 <div id="content">

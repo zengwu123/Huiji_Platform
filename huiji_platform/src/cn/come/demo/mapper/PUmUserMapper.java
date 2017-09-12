@@ -3,6 +3,8 @@ package cn.come.demo.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.come.demo.dto.UserInfoExtUser;
 import cn.come.demo.po.PUmAuthority;
 import cn.come.demo.po.PUmUser;
@@ -69,4 +71,7 @@ public interface PUmUserMapper {
 	 * 根据登陆id获取用户信息
 	 */
 	UserInfoExtUser findUserinfoByLoginId(String loginid);
+	
+	//判读登陆id是否存在
+	PUmUser checkLongId(@Param("loginid")String loginid);
 }

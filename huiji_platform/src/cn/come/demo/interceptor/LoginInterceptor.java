@@ -39,7 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	
 	public boolean isLogin(String path){
 		boolean flag=false;
-		String[] strPath={"login.jsp","loginUser.action",".css",".js","registUser"};
+		String[] strPath={"login.jsp","checkLongId.action","registration.action","forRegist.action","loginUser.action",".css",".js"};
 		for (int i = 0; i < strPath.length; i++) {
 			if(path.contains(strPath[i])){
 				flag=true;

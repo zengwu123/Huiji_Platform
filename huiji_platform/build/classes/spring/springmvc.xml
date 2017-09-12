@@ -16,7 +16,7 @@
 	<!-- 扫描包 -->
 	<context:component-scan base-package="cn.come.demo.controller"></context:component-scan>
 	<!-- 开启注解驱动 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
         <!-- 上传文件大小上限，单位为字节（10MB） -->

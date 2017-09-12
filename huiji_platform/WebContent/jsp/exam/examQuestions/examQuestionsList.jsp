@@ -79,7 +79,7 @@ function pageQuestion(currentPage){
 									varStatus="index">
 									<tr>
 										<td>${index.count}</td>
-										<td>${list.questions_no}</td>
+										<td><a href="${pageContext.request.contextPath}/que/questionsInfoList.action?questions_no=${list.questions_no}">${list.questions_no}</a></td>
 										<td>${list.subject_no}</td>
 										<td>${list.questions_name}</td>
 										<td>${list.questions_desc}</td>

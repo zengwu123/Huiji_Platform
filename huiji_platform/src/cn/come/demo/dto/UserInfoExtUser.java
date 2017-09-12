@@ -13,6 +13,11 @@ import cn.come.demo.po.PUmAuthority;
 
 public class UserInfoExtUser implements Serializable,UserDetails{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String userid;
 
     private String loginid;

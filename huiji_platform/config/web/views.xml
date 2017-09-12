@@ -13,6 +13,8 @@
 		<put-attribute name="footer" value="/jsp/templet/foot.jsp" />
 	</definition>
 
+	<!-- 跳转到注册页面 -->
+	<definition name="user.forRegist" template="/jsp/regist.jsp"></definition>
 
 	<!-- 用户信息 -->
 	<definition name="user.userList" extends="base.definition">
@@ -155,6 +157,11 @@
 			value="/jsp/exam/exam/paperScoresList.jsp"/>
 	</definition>
 	
+	<!-- 查看题库题目列表 -->
+	<definition name="exam.QuestionsInfoList" extends="base.definition">
+		<put-attribute name="body"
+			value="/jsp/exam/examQuestions/questionsInfoList.jsp"/>
+	</definition>
 	
 
 	<!-- ui页面案例模板 -->

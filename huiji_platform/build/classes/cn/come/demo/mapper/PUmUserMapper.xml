@@ -82,6 +82,10 @@ and r.roleid=ra.roleid and ra.authorityid=a.authorityid and u.userid=#{_paramete
   <select id="findMaxUserId" resultType="Long">
   select max(to_number(userid)) from p_um_user 
   </select>
+  <!--判读登陆id是否存在  -->
+  <select id="checkLongId" parameterType="java.lang.String" resultType="pUmUser">
+      select * from p_um_user where loginid=#{loginid}
+  </select>
   
   <!-- 插入用户 -->
   <insert id="insert" parameterType="pUmUser" >

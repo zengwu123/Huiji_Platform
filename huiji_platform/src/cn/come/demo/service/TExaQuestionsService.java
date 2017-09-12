@@ -10,6 +10,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.come.demo.mapper.TExaQuestionsMapper;
+import cn.come.demo.po.TExaAnswerInfo;
+import cn.come.demo.po.TExaQuestionDetailed;
 import cn.come.demo.po.TExaQuestions;
 
 @Service
@@ -32,5 +34,19 @@ public class TExaQuestionsService {
 		PageInfo<TExaQuestions> pageinfo=new PageInfo<>(texQuestionsList,5);
 		return pageinfo;
 		
+	}
+
+	//得到题库题目列表
+	public PageInfo<TExaQuestionDetailed> getTQuestionsInfoList(Integer page, TExaQuestionDetailed tExaQuestionDetailed) {
+		PageHelper.startPage(page, 5);
+		List<TExaQuestionDetailed> list=tExaQuestionsMapper.getTQuestionsInfoList(tExaQuestionDetailed);
+		PageInfo<TExaQuestionDetailed> pageinfo=new PageInfo<>(list,6);
+		return pageinfo;
+	}
+
+	//根据题目编号查看题目答案
+	public List<TExaAnswerInfo> getAnswersByNo(TExaAnswerInfo tExaAnswerInfo) {
+		List<TExaAnswerInfo> list= tExaQuestionsMapper.getAnswersByNo(tExaAnswerInfo);
+		return list;
 	}
 }

@@ -26,4 +26,26 @@
 	</if>
 	</where>
 </select>
+
+<!-- 得到题库题目列表 -->
+<select id="getTQuestionsInfoList" parameterType="tExaQuestionDetailed" resultType="tExaQuestionDetailed">
+   select * from t_exa_question_Detailed 
+   <where>
+	   <if test="questions_no !=null and questions_no !=''">
+	       and questions_no=#{questions_no}
+	   </if>
+	   <if test="question_type !=null and question_type !=''">
+	       and question_type=#{question_type}
+	   </if>
+	   <if test="question_no !=null and question_no !=''">
+	       and question_no=#{question_no}
+	   </if>
+   </where>
+   order by question_type
+</select>
+
+<select id="getAnswersByNo" parameterType="tExaAnswerInfo" resultType="tExaAnswerInfo">
+	select *from t_exa_answer_info where question_no=#{question_no} order by answer_num
+</select>
+
 </mapper>

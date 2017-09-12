@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.come.demo.po.TExaAnswerInfo;
+import cn.come.demo.po.TExaQuestionDetailed;
 import cn.come.demo.po.TExaQuestions;
 
 public interface TExaQuestionsMapper {
@@ -17,4 +19,10 @@ public interface TExaQuestionsMapper {
 	
 	//得到题库列表list
 	public List<TExaQuestions> getTExaQuestions(TExaQuestions tExaQuestions);
+
+	//得到题库题目列表
+	public List<TExaQuestionDetailed> getTQuestionsInfoList(TExaQuestionDetailed tExaQuestionDetailed);
+
+	//根据题目编号查看题目答案
+	public List<TExaAnswerInfo> getAnswersByNo(TExaAnswerInfo tExaAnswerInfo);
 }

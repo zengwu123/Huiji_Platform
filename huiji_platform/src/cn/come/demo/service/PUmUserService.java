@@ -9,6 +9,7 @@ import cn.come.demo.mapper.PUmUserMapper;
 import cn.come.demo.mapper.PUmUserRoleMapper;
 import cn.come.demo.po.PUmAuthority;
 import cn.come.demo.po.PUmUser;
+import cn.come.demo.utils.MD5Config;
 import cn.come.demo.utils.PageBeanUtil;
 
 @Service
@@ -62,13 +63,21 @@ public class PUmUserService {
 	}
 
 	public void addUser(PUmUser pumUser) {
-
+		
+		String password=MD5Config.md5_SystemWideSaltSource(pumUser.getPassword(), pumUser.getLoginid());
+		pumUser.setPassword(password);
 		pUmUserMapper.insert(pumUser);
 
 	}
 
 	public void updUserInfo(PUmUser pUmUser) {
 		pUmUserMapper.updUserInfo(pUmUser);
+	}
+
+	//通过登陆id 判断是否存在
+	public PUmUser checkLongId(String loginid) {
+		PUmUser pUmUser=pUmUserMapper.checkLongId(loginid);
+		return pUmUser;
 	}
 
 

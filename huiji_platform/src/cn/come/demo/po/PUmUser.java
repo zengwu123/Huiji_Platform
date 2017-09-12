@@ -2,13 +2,21 @@ package cn.come.demo.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.Pattern;
+
 public class PUmUser {
+	
     private String userid;
 
+    @Pattern(regexp="^[A-Za-z0-9]{6,20}$",message="数字或者字母，6-20位")
     private String loginid;
 
+    @Pattern(regexp="(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})",
+    		message="用户名可以是2-5位中文或者6-16位英文和数字的组合")
     private String username;
 
+    @Pattern(regexp="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$",
+    		message="检测密码由6-21字母和数字组成，不能是纯数字或纯英文")
     private String password;
 
     private Integer usertype;
